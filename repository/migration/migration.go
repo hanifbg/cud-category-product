@@ -1,7 +1,8 @@
 package migration
 
 import (
-	"github.com/hanifbg/login_register_v2/repository/user"
+	"GO_MOD_MODULE_NAME/repository/user"
+
 	"gorm.io/gorm"
 )
 

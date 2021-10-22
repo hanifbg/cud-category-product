@@ -1,8 +1,7 @@
 package user
 
 import (
-	"net/http"
-
+	"GO_MOD_MODULE_NAME/common"
 	"GO_MOD_MODULE_NAME/service/user"
 
 	"github.com/golang-jwt/jwt"
@@ -22,10 +21,10 @@ func NewHandler(service user.Service) *Handler {
 func (handler *Handler) UserHandler(c echo.Context) error {
 	err := handler.service.ServiceFuncForUser()
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(common.NewErrorBusinessResponse(err))
 	}
 
-	return c.JSON(http.StatusOK, "ok")
+	return c.JSON(common.NewSuccessResponseWithoutData())
 }
 
 func (handler *Handler) AuthUser(c echo.Context) error {
@@ -34,8 +33,8 @@ func (handler *Handler) AuthUser(c echo.Context) error {
 
 	userID, ok := claims["id"]
 	if !ok {
-		return c.JSON(http.StatusForbidden, ok)
+		return c.JSON(common.NewForbiddenResponse())
 	}
 
-	return c.JSON(http.StatusOK, userID)
+	return c.JSON(common.NewSuccessResponse(userID))
 }

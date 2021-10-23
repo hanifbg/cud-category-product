@@ -7,12 +7,12 @@ import (
 	"os/signal"
 	"time"
 
-	"GO_MOD_MODULE_NAME/config"
-	"GO_MOD_MODULE_NAME/handler"
-	userHandler "GO_MOD_MODULE_NAME/handler/user"
-	"GO_MOD_MODULE_NAME/repository/migration"
-	userRepo "GO_MOD_MODULE_NAME/repository/user"
-	userService "GO_MOD_MODULE_NAME/service/user"
+	"github.com/hanifbg/cud-category-product/config"
+	"github.com/hanifbg/cud-category-product/handler"
+	userHandler "github.com/hanifbg/cud-category-product/handler/user"
+	"github.com/hanifbg/cud-category-product/repository/migration"
+	userRepo "github.com/hanifbg/cud-category-product/repository/user"
+	userService "github.com/hanifbg/cud-category-product/service/user"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"

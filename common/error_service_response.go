@@ -3,7 +3,7 @@ package common
 import (
 	"net/http"
 
-	"GO_MOD_MODULE_NAME/service"
+	"github.com/hanifbg/cud-category-product/service"
 )
 
 type errorServiceResponse string

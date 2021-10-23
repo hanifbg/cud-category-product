@@ -1,8 +1,8 @@
 package user
 
 import (
-	"GO_MOD_MODULE_NAME/common"
-	"GO_MOD_MODULE_NAME/service/user"
+	"github.com/hanifbg/cud-category-product/common"
+	"github.com/hanifbg/cud-category-product/service/user"
 
 	"github.com/golang-jwt/jwt"
 	echo "github.com/labstack/echo/v4"

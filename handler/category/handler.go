@@ -1,25 +1,32 @@
-package user
+package category
 
 import (
 	"github.com/hanifbg/cud-category-product/common"
-	"github.com/hanifbg/cud-category-product/service/user"
+	"github.com/hanifbg/cud-category-product/handler/category/request"
+	"github.com/hanifbg/cud-category-product/service/category"
 
 	"github.com/golang-jwt/jwt"
 	echo "github.com/labstack/echo/v4"
 )
 
 type Handler struct {
-	service user.Service
+	service category.Service
 }
 
-func NewHandler(service user.Service) *Handler {
+func NewHandler(service category.Service) *Handler {
 	return &Handler{
 		service,
 	}
 }
 
 func (handler *Handler) UserHandler(c echo.Context) error {
-	err := handler.service.ServiceFuncForUser()
+	addCategoryReq := new(request.AddCategoryRequest)
+
+	if err := c.Bind(addCategoryReq); err != nil {
+		return c.JSON(common.NewBadRequestResponse())
+	}
+
+	err := handler.service.AddCategory(*addCategoryReq.ConvertToCategoryData())
 	if err != nil {
 		return c.JSON(common.NewErrorBusinessResponse(err))
 	}

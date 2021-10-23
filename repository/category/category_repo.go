@@ -47,7 +47,6 @@ func NewGormDBRepository(db *gorm.DB) *GormRepository {
 	}
 }
 
-//InsertUser Insert new User into storage
 func (repo *GormRepository) AddCategory(category category.Category) error {
 	categoryData := newCategoryTable(category)
 

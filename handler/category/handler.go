@@ -19,7 +19,7 @@ func NewHandler(service category.Service) *Handler {
 	}
 }
 
-func (handler *Handler) UserHandler(c echo.Context) error {
+func (handler *Handler) AddCategoryHandler(c echo.Context) error {
 	addCategoryReq := new(request.AddCategoryRequest)
 
 	if err := c.Bind(addCategoryReq); err != nil {

@@ -8,6 +8,7 @@ type Category struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time
 	Name      string
+	IsActive  bool
 }
 
 func NewCategory(name string, createdAt time.Time, updatedAt time.Time) Category {
@@ -16,5 +17,6 @@ func NewCategory(name string, createdAt time.Time, updatedAt time.Time) Category
 		CreatedAt: createdAt,
 		UpdatedAt: updatedAt,
 		Name:      name,
+		IsActive:  true,
 	}
 }

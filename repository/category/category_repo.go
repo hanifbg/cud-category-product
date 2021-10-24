@@ -13,6 +13,7 @@ type Category struct {
 	UpdatedAt time.Time  `gorm:"updated_at"`
 	DeletedAt *time.Time `gorm:"deleted_at"`
 	Name      string     `json:"name"  validate:"required"`
+	IsActive  bool       `gorm:"default:true"`
 }
 
 func (col *Category) ToCategory() category.Category {
@@ -23,6 +24,7 @@ func (col *Category) ToCategory() category.Category {
 	category.UpdatedAt = col.UpdatedAt
 	category.DeletedAt = col.DeletedAt
 	category.Name = col.Name
+	category.IsActive = col.IsActive
 
 	return category
 }
@@ -34,6 +36,7 @@ func newCategoryTable(category category.Category) *Category {
 		category.UpdatedAt,
 		category.DeletedAt,
 		category.Name,
+		category.IsActive,
 	}
 }
 

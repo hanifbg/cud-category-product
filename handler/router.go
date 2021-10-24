@@ -12,6 +12,7 @@ func RegisterPath(e *echo.Echo, categoryHandler *category.Handler, productHandle
 
 	userV1 := e.Group("v1")
 	userV1.POST("/add_category", categoryHandler.AddCategoryHandler)
+	userV1.POST("/update_category", categoryHandler.AddCategoryHandler)
 	userV1.POST("/add_product", productHandler.AddProductHandler)
 
 	cobaV1 := e.Group("v1/auth")

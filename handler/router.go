@@ -14,6 +14,7 @@ func RegisterPath(e *echo.Echo, categoryHandler *category.Handler, productHandle
 	userV1.POST("/add_category", categoryHandler.AddCategoryHandler)
 	userV1.PUT("/update_category/:id", categoryHandler.UpdateCategory)
 	userV1.POST("/add_product", productHandler.AddProductHandler)
+	userV1.PUT("/update_product/:id", productHandler.UpdateProductHandler)
 
 	cobaV1 := e.Group("v1/auth")
 	cobaV1.Use(middleware.JWTMiddleware())

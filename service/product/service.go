@@ -1,6 +1,7 @@
 package product
 
 import (
+	"fmt"
 	"time"
 
 	serv "github.com/hanifbg/cud-category-product/service"
@@ -26,6 +27,16 @@ type CreateProductData struct {
 	Detail     string `validate:"required"`
 }
 
+type UpdateProduct struct {
+	NewCategoryId int
+	NewName       string
+	NewPrice      int
+	NewStock      int
+	NewImage      string
+	NewDetail     string
+	DeletedAt     *time.Time
+}
+
 func (s *service) AddProduct(data CreateProductData) error {
 	err := validator.GetValidator().Struct(data)
 	if err != nil {
@@ -48,4 +59,27 @@ func (s *service) AddProduct(data CreateProductData) error {
 		return err
 	}
 	return nil
+}
+
+func (s *service) UpdateProduct(id int, data UpdateProduct) error {
+	product, err := s.repository.FindProductById(id)
+	if err != nil {
+		return serv.ErrInvalidData
+	} else if product == nil {
+		return serv.ErrNotFound
+	}
+
+	modifProduct := product.ModifyProduct(
+		data.NewCategoryId,
+		data.NewName,
+		data.NewPrice,
+		data.NewStock,
+		data.NewImage,
+		data.NewDetail,
+		data.DeletedAt,
+	)
+
+	fmt.Println(modifProduct)
+
+	return s.repository.UpdateProduct(modifProduct)
 }

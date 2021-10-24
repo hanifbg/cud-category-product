@@ -2,7 +2,7 @@ package request
 
 import "github.com/hanifbg/cud-category-product/service/product"
 
-type AddCategoryRequest struct {
+type AddProductRequest struct {
 	Name       string `json:"name"`
 	CategoryId int    `json:"category_id"`
 	Price      int    `json:"price"`
@@ -11,7 +11,7 @@ type AddCategoryRequest struct {
 	Detail     string `json:"detail"`
 }
 
-func (req *AddCategoryRequest) ConvertToProductData() *product.CreateProductData {
+func (req *AddProductRequest) ConvertToProductData() *product.CreateProductData {
 	var data product.CreateProductData
 
 	data.CategoryId = req.CategoryId

@@ -13,7 +13,7 @@ type Category struct {
 	UpdatedAt time.Time  `gorm:"updated_at"`
 	DeletedAt *time.Time `gorm:"deleted_at"`
 	Name      string     `json:"name"  validate:"required"`
-	IsActive  bool       `gorm:"default:true"`
+	IsActive  bool
 }
 
 func (col *Category) ToCategory() category.Category {
@@ -50,10 +50,37 @@ func NewGormDBRepository(db *gorm.DB) *GormRepository {
 	}
 }
 
+func (repo *GormRepository) FindCategoryById(id int) (*category.Category, error) {
+
+	var categoryData Category
+
+	err := repo.DB.First(&categoryData, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	user := categoryData.ToCategory()
+
+	return &user, nil
+}
+
 func (repo *GormRepository) AddCategory(category category.Category) error {
 	categoryData := newCategoryTable(category)
 
 	err := repo.DB.Create(categoryData).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (repo *GormRepository) UpdateCategory(category category.Category) error {
+	categoryData := newCategoryTable(category)
+
+	err := repo.DB.Model(&categoryData).Updates(map[string]interface{}{
+		"name":      category.Name,
+		"is_active": category.IsActive,
+	}).Error
 	if err != nil {
 		return err
 	}

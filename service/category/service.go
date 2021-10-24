@@ -39,3 +39,17 @@ func (s *service) AddCategory(data CreateCategoryData) error {
 	}
 	return nil
 }
+
+func (s *service) UpdateCategory(id int, name string, isActive bool) error {
+
+	category, err := s.repository.FindCategoryById(id)
+	if err != nil {
+		return serv.ErrInvalidData
+	} else if category == nil {
+		return serv.ErrNotFound
+	}
+
+	modifCategory := category.ModifyCategory(name, isActive, time.Now())
+
+	return s.repository.UpdateCategory(modifCategory)
+}

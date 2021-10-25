@@ -11,5 +11,5 @@ type Repository interface {
 	FindCartProduct(int, int) (*CartProduct, error)
 	CreateCartProduct(CartProduct) (*CartProduct, error)
 	UpdateCartProduct(CartProduct) (*CartProduct, error)
-	SumPrice(int, int) int
+	SumPrice(int) int
 }

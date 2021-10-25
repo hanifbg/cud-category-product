@@ -91,9 +91,9 @@ func (repo *GormRepository) UpdateCartProduct(cartProduct cart.CartProduct) (*ca
 	return &updatedCartProduct, nil
 }
 
-func (repo *GormRepository) SumPrice(cartID int, productID int) int {
+func (repo *GormRepository) SumPrice(cartID int) int {
 	var result SumPrice
-	repo.DB.Table("cart_products").Select("sum(price) as sum_price").Where("cart_id = ? AND product_id = ?", cartID, productID).Scan(&result)
+	repo.DB.Table("cart_products").Select("sum(price) as sum_price").Where("cart_id = ?", cartID).Scan(&result)
 
 	return result.SumPrice
 }

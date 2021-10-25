@@ -69,7 +69,7 @@ func main() {
 	productHandler := productHandler.NewHandler(productService)
 
 	cartRepo := cartRepo.NewGormDBRepository(dbConnection)
-	cartService := cartService.NewService(cartRepo)
+	cartService := cartService.NewService(cartRepo, productRepo)
 	cartHandler := cartHandler.NewHandler(cartService)
 
 	e := echo.New()

@@ -13,6 +13,7 @@ const (
 	errHasBeenModified     errorServiceResponse = "data_has_been modified"
 	errNotFound            errorServiceResponse = "data_not_found"
 	errInvalidSpec         errorServiceResponse = "invalid_spec"
+	errEmptyStock          errorServiceResponse = "empty_stock"
 )
 
 //BusinessResponse default payload response
@@ -38,6 +39,16 @@ func errorMapping(err error) (int, ServiceResponse) {
 		return newValidationResponse(err.Error())
 	case service.ErrHasBeenModified:
 		return newHasBeedModifiedResponse()
+	case service.ErrEmptyStock:
+		return newEmptyStockResponse(err.Error())
+	}
+}
+
+func newEmptyStockResponse(message string) (int, ServiceResponse) {
+	return http.StatusBadRequest, ServiceResponse{
+		errEmptyStock,
+		message,
+		map[string]interface{}{},
 	}
 }
 

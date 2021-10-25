@@ -14,4 +14,6 @@ var (
 
 	//ErrInvalidSpec Error when data given is not valid on update or insert
 	ErrInvalidData = errors.New("Given data is not valid")
+
+	ErrEmptyStock = errors.New("Product stock is empty")
 )

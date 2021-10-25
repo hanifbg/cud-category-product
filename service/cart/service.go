@@ -34,7 +34,6 @@ func (s *service) CreateCart(userID int, data CreateCartData) error {
 
 	//cart
 	cartData, _ := s.repository.FindCartByUserID(userID)
-
 	if cartData == nil {
 		newCartData := NewCart(userID, 0, time.Now(), time.Now()) //create cart if notfound
 		cartData, err = s.repository.CreateCart(newCartData)
@@ -42,11 +41,16 @@ func (s *service) CreateCart(userID int, data CreateCartData) error {
 			return err
 		}
 	}
+
 	//cartProduct
 	cartProductData, _ := s.repository.FindCartProduct(int(cartData.ID), data.ProductID)
 	productData, err := s.productRepo.FindProductById(data.ProductID)
 	if err != nil {
 		return err
+	}
+
+	if productData.Stock == 0 {
+		return serv.ErrEmptyStock
 	}
 
 	if cartProductData == nil {

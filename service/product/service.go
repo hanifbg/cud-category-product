@@ -1,7 +1,6 @@
 package product
 
 import (
-	"fmt"
 	"time"
 
 	serv "github.com/hanifbg/cud-category-product/service"
@@ -78,8 +77,6 @@ func (s *service) UpdateProduct(id int, data UpdateProduct) error {
 		data.NewDetail,
 		data.DeletedAt,
 	)
-
-	fmt.Println(modifProduct)
 
 	return s.repository.UpdateProduct(modifProduct)
 }

@@ -9,11 +9,14 @@ import (
 
 	"github.com/hanifbg/cud-category-product/config"
 	"github.com/hanifbg/cud-category-product/handler"
+	cartHandler "github.com/hanifbg/cud-category-product/handler/cart"
 	categoryHandler "github.com/hanifbg/cud-category-product/handler/category"
 	productHandler "github.com/hanifbg/cud-category-product/handler/product"
+	cartRepo "github.com/hanifbg/cud-category-product/repository/cart"
 	categoryRepo "github.com/hanifbg/cud-category-product/repository/category"
 	"github.com/hanifbg/cud-category-product/repository/migration"
 	productRepo "github.com/hanifbg/cud-category-product/repository/product"
+	cartService "github.com/hanifbg/cud-category-product/service/cart"
 	categoryService "github.com/hanifbg/cud-category-product/service/category"
 	productService "github.com/hanifbg/cud-category-product/service/product"
 
@@ -65,9 +68,13 @@ func main() {
 	productService := productService.NewService(productRepo)
 	productHandler := productHandler.NewHandler(productService)
 
+	cartRepo := cartRepo.NewGormDBRepository(dbConnection)
+	cartService := cartService.NewService(cartRepo)
+	cartHandler := cartHandler.NewHandler(cartService)
+
 	e := echo.New()
 
-	handler.RegisterPath(e, categoryHandler, productHandler)
+	handler.RegisterPath(e, categoryHandler, productHandler, cartHandler)
 	go func() {
 		address := fmt.Sprintf("localhost:%d", config.AppPort)
 

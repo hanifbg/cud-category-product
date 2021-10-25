@@ -56,6 +56,12 @@ type GormRepository struct {
 	DB *gorm.DB
 }
 
+func NewGormDBRepository(db *gorm.DB) *GormRepository {
+	return &GormRepository{
+		db,
+	}
+}
+
 func (repo *GormRepository) FindProductById(id int) (*product.Product, error) {
 
 	var productData Product
@@ -68,12 +74,6 @@ func (repo *GormRepository) FindProductById(id int) (*product.Product, error) {
 	product := productData.ToProduct()
 
 	return &product, nil
-}
-
-func NewGormDBRepository(db *gorm.DB) *GormRepository {
-	return &GormRepository{
-		db,
-	}
 }
 
 func (repo *GormRepository) AddProduct(product product.Product) error {

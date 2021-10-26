@@ -37,3 +37,18 @@ func (handler *Handler) CartHandler(c echo.Context) error {
 	}
 	return c.JSON(common.NewSuccessResponseWithoutData())
 }
+
+func (handler *Handler) GetCartHandler(c echo.Context) error {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims) //conver to jwt.MapClaims
+	userID, ok := claims["id"]
+	if !ok {
+		return c.JSON(common.NewForbiddenResponse())
+	}
+
+	cartData, err := handler.service.FindCartByUserID(int(userID.(float64)))
+	if err != nil {
+		return c.JSON(common.NewErrorBusinessResponse(err))
+	}
+	return c.JSON(common.NewSuccessResponse(cartData))
+}

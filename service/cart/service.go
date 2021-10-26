@@ -1,7 +1,6 @@
 package cart
 
 import (
-	"fmt"
 	"time"
 
 	serv "github.com/hanifbg/cud-category-product/service"
@@ -74,9 +73,24 @@ func (s *service) CreateCart(userID int, data CreateCartData) error {
 		return err
 	}
 
-	fmt.Println(newTotalPrice)
-	fmt.Println(cartProductData)
-	fmt.Println(cartData)
-
 	return nil
+}
+
+func (s *service) FindCartByUserID(userID int) ([]CartProduct, error) { //cart
+	var err error
+	cartData, _ := s.repository.FindCartByUserID(userID)
+	if cartData == nil {
+		newCartData := NewCart(userID, 0, time.Now(), time.Now()) //create cart if notfound
+		cartData, err = s.repository.CreateCart(newCartData)
+		if err != nil {
+			return []CartProduct{}, err
+		}
+	}
+
+	cartProductData, err := s.repository.FindCartProductByCart(int(cartData.ID))
+	if err != nil {
+		return []CartProduct{}, err
+	}
+
+	return cartProductData, nil
 }

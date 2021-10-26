@@ -21,6 +21,7 @@ func RegisterPath(e *echo.Echo, categoryHandler *category.Handler, productHandle
 	cobaV1 := e.Group("v1")
 	cobaV1.Use(middleware.JWTMiddleware())
 	cobaV1.GET("/", categoryHandler.AuthUser)
+	cobaV1.GET("/cart", cartHandler.GetCartHandler)
 	cobaV1.POST("/cart", cartHandler.CartHandler)
 	cobaV1.POST("/checkout", checkoutHandler.CreateCheckoutHandler)
 }

@@ -49,6 +49,22 @@ func (col *CartProduct) ToCartProduct() cart.CartProduct {
 	return cart
 }
 
+func (repo *GormRepository) FindCartProductByCart(cartID int) ([]cart.CartProduct, error) {
+	var cartProductData []CartProduct
+
+	err := repo.DB.Where("cart_id = ?", cartID).Find(&cartProductData).Error
+	if err != nil {
+		return nil, err
+	}
+
+	var cartProduct []cart.CartProduct
+	for _, value := range cartProductData {
+		cartProduct = append(cartProduct, value.ToCartProduct())
+	}
+
+	return cartProduct, nil
+}
+
 func (repo *GormRepository) FindCartProduct(cartID int, productID int) (*cart.CartProduct, error) {
 	var cartProductData CartProduct
 

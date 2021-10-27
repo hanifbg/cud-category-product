@@ -84,7 +84,7 @@ func main() {
 
 	handler.RegisterPath(e, categoryHandler, productHandler, cartHandler, checkoutHandler)
 	go func() {
-		address := fmt.Sprintf("localhost:%d", config.AppPort)
+		address := fmt.Sprintf(":%d", config.AppPort)
 
 		if err := e.Start(address); err != nil {
 			log.Info("shutting down the server")

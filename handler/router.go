@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"fmt"
+
 	"github.com/hanifbg/cud-category-product/handler/cart"
 	"github.com/hanifbg/cud-category-product/handler/category"
 	"github.com/hanifbg/cud-category-product/handler/checkout"
@@ -13,6 +15,8 @@ import (
 func RegisterPath(e *echo.Echo, categoryHandler *category.Handler, productHandler *product.Handler, cartHandler *cart.Handler, checkoutHandler *checkout.Handler) {
 
 	userV1 := e.Group("v1")
+	userV1.Use(middleware.JWTMiddleware())
+	userV1.Use(middlewareOne)
 	userV1.POST("/category", categoryHandler.AddCategoryHandler)
 	userV1.PUT("/category/:id", categoryHandler.UpdateCategory)
 	userV1.POST("/product", productHandler.AddProductHandler)
@@ -24,4 +28,11 @@ func RegisterPath(e *echo.Echo, categoryHandler *category.Handler, productHandle
 	cobaV1.GET("/cart", cartHandler.GetCartHandler)
 	cobaV1.POST("/cart", cartHandler.CartHandler)
 	cobaV1.POST("/checkout", checkoutHandler.CreateCheckoutHandler)
+}
+
+func middlewareOne(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		fmt.Println("from middleware one")
+		return next(c)
+	}
 }

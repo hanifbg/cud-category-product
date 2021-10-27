@@ -1,9 +1,9 @@
 package config
 
 import (
+	"fmt"
 	"sync"
 
-	"github.com/labstack/gommon/log"
 	"github.com/spf13/viper"
 )
 
@@ -60,39 +60,22 @@ func initConfig() *AppConfig {
 	defaultConfig.DbPassword = "1"
 	defaultConfig.DbName = "alta_final"
 
-	//use this if .env file (dont forget to run "source PATH_TO/.env" example "source config/.env")
-	viper.AutomaticEnv()
-	viper.SetEnvPrefix("your")
-	viper.BindEnv("app_port")
-	viper.BindEnv("app_environment")
-	viper.BindEnv("db_driver")
-	viper.BindEnv("db_address")
-	viper.BindEnv("db_port")
-	viper.BindEnv("db_username")
-	viper.BindEnv("db_password")
-	viper.BindEnv("db_name")
-	err := viper.Unmarshal(&finalConfig)
-	if err != nil {
-		log.Info("failed to extract config, will use default value")
-		return &defaultConfig
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("./config")
+	viper.SetConfigName("app.config")
+	viper.SetConfigType("json")
+	err := viper.ReadInConfig()
+	if err == nil {
+		fmt.Printf("Using config file: %s \n\n", viper.ConfigFileUsed())
 	}
-
-	//use this for json check app.config.json for example
-	// viper.AddConfigPath(".")
-	// viper.SetConfigName("app.config")
-	// viper.SetConfigType("json")
-	// err := viper.ReadInConfig()
-	// if err == nil {
-	// 	fmt.Printf("Using config file: %s \n\n", viper.ConfigFileUsed())
-	// }
-	// finalConfig.AppPort = viper.GetString("server.port")
-	// finalConfig.AppEnvironment = viper.GetString("appEnv")
-	// finalConfig.DbDriver = viper.GetString("database.driver")
-	// finalConfig.DbAddress = viper.GetString("database.host")
-	// finalConfig.DbPort = viper.GetString("database.port")
-	// finalConfig.DbUsername = viper.GetString("database.username")
-	// finalConfig.DbPassword = viper.GetString("database.password")
-	// finalConfig.DbName = viper.GetString("database.dbname")
+	finalConfig.AppPort = viper.GetInt("server.port")
+	finalConfig.AppEnvironment = viper.GetString("appEnv")
+	finalConfig.DbDriver = viper.GetString("database.driver")
+	finalConfig.DbAddress = viper.GetString("database.host")
+	finalConfig.DbPort = viper.GetInt("database.port")
+	finalConfig.DbUsername = viper.GetString("database.username")
+	finalConfig.DbPassword = viper.GetString("database.password")
+	finalConfig.DbName = viper.GetString("database.dbname")
 
 	return &finalConfig
 }

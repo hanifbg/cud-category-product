@@ -15,7 +15,7 @@ import (
 const (
 	id         = 1
 	categoryId = 1
-	name       = "category"
+	name       = "product"
 	price      = 100
 	stock      = 10
 	image      = "images"

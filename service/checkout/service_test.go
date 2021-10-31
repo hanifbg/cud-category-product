@@ -29,8 +29,7 @@ var (
 	invalidCheckout checkout.CreateCheckoutData
 	cartData        *cart.Cart
 
-	updateData checkout.UpdateCheckout
-	pointData  *checkout.Checkout
+	pointData *checkout.Checkout
 )
 
 func setup() {

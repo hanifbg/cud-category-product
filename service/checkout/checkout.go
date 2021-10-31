@@ -42,25 +42,3 @@ func NewCheckout(cartID int,
 		StatusOverall:  statusOverall,
 	}
 }
-
-func (oldData *Checkout) ModifyProduct(
-	newActive bool,
-	newStatusPay bool,
-	newStatusDeli bool,
-	newStatusOver bool,
-	updated time.Time,
-) Checkout {
-	return Checkout{
-		ID:             oldData.ID,
-		CreatedAt:      oldData.CreatedAt,
-		UpdatedAt:      updated,
-		CartID:         oldData.CartID,
-		UserID:         oldData.UserID,
-		Subtotal:       oldData.Subtotal,
-		Payment:        oldData.Payment,
-		IsActive:       newActive,
-		StatusPayment:  newStatusPay,
-		StatusDelivery: newStatusDeli,
-		StatusOverall:  newStatusOver,
-	}
-}

@@ -29,7 +29,6 @@ type UpdateCheckout struct {
 	NewStatusPay  bool
 	NewStatusDeli bool
 	NewStatusOver bool
-	DeletedAt     *time.Time
 }
 
 func (s *service) CreateCheckout(userId int, data CreateCheckoutData) error {
@@ -61,4 +60,22 @@ func (s *service) CreateCheckout(userId int, data CreateCheckoutData) error {
 		return err
 	}
 	return nil
+}
+
+func (s *service) UpdateCheckout(checkoutId int, data UpdateCheckout) error {
+	checkout, err := s.repository.FindCheckoutById(checkoutId)
+	if checkout == nil {
+		return serv.ErrNotFound
+	} else if err != nil {
+		return err
+	}
+
+	modifCheckout := checkout.ModifyCheckout(
+		data.NewActive,
+		data.NewStatusPay,
+		data.NewStatusDeli,
+		data.NewStatusOver,
+	)
+
+	return s.repository.UpdateCheckout(modifCheckout)
 }

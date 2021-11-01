@@ -76,7 +76,36 @@ func (repo *GormRepository) CreateCheckout(checkout checkout.Checkout) error {
 		return err
 	}
 
-	// checkoutData := newCheckout.ToCheckout()
+	return nil
+}
 
+func (repo *GormRepository) FindCheckoutById(id int) (*checkout.Checkout, error) {
+
+	var checkoutData Checkout
+
+	err := repo.DB.First(&checkoutData, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	checkout := checkoutData.ToCheckout()
+
+	return &checkout, nil
+}
+
+func (repo *GormRepository) UpdateCheckout(checkout checkout.Checkout) error {
+	checkoutData := newCheckoutTable(checkout)
+
+	err := repo.DB.Model(&checkoutData).Where("id = ?", checkout.ID).Updates(Checkout{
+		IsActive:       checkout.IsActive,
+		StatusPayment:  checkout.StatusPayment,
+		StatusDelivery: checkout.StatusDelivery,
+		StatusOverall:  checkout.StatusOverall,
+		DeletedAt:      checkout.DeletedAt,
+	}).Error
+
+	if err != nil {
+		return err
+	}
 	return nil
 }

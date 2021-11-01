@@ -87,9 +87,9 @@ func (repo *GormRepository) AddProduct(product product.Product) error {
 }
 
 func (repo *GormRepository) UpdateProduct(product product.Product) error {
-	categoryData := newProductTable(product)
+	productData := newProductTable(product)
 
-	err := repo.DB.Model(&categoryData).Where("category_id = ?", product.CategoryID).Updates(Product{
+	err := repo.DB.Model(&productData).Where("id = ?", product.ID).Updates(Product{
 		Name:       product.Name,
 		CategoryID: product.CategoryID,
 		Price:      product.Price,

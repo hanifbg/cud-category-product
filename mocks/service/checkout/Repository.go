@@ -25,3 +25,40 @@ func (_m *Repository) CreateCheckout(_a0 checkout.Checkout) error {
 
 	return r0
 }
+
+// FindCheckoutById provides a mock function with given fields: _a0
+func (_m *Repository) FindCheckoutById(_a0 int) (*checkout.Checkout, error) {
+	ret := _m.Called(_a0)
+
+	var r0 *checkout.Checkout
+	if rf, ok := ret.Get(0).(func(int) *checkout.Checkout); ok {
+		r0 = rf(_a0)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*checkout.Checkout)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(int) error); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// UpdateCheckout provides a mock function with given fields: _a0
+func (_m *Repository) UpdateCheckout(_a0 checkout.Checkout) error {
+	ret := _m.Called(_a0)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(checkout.Checkout) error); ok {
+		r0 = rf(_a0)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}

@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"fmt"
-
+	"github.com/golang-jwt/jwt"
+	"github.com/hanifbg/cud-category-product/common"
 	"github.com/hanifbg/cud-category-product/handler/cart"
 	"github.com/hanifbg/cud-category-product/handler/category"
 	"github.com/hanifbg/cud-category-product/handler/checkout"
@@ -16,7 +16,7 @@ func RegisterPath(e *echo.Echo, categoryHandler *category.Handler, productHandle
 
 	userV1 := e.Group("v1")
 	userV1.Use(middleware.JWTMiddleware())
-	userV1.Use(middlewareOne)
+	userV1.Use(middlewareAdmin)
 	userV1.POST("/category", categoryHandler.AddCategoryHandler)
 	userV1.PUT("/category/:id", categoryHandler.UpdateCategory)
 	userV1.POST("/product", productHandler.AddProductHandler)
@@ -30,9 +30,17 @@ func RegisterPath(e *echo.Echo, categoryHandler *category.Handler, productHandle
 	cobaV1.POST("/checkout", checkoutHandler.CreateCheckoutHandler)
 }
 
-func middlewareOne(next echo.HandlerFunc) echo.HandlerFunc {
+func middlewareAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		fmt.Println("from middleware one")
+		user := c.Get("user").(*jwt.Token)
+		claims := user.Claims.(jwt.MapClaims) //conver to jwt.MapClaims
+		role, ok := claims["role"]
+		if !ok {
+			return c.JSON(common.NewForbiddenResponse())
+		} else if role != "admin" {
+			return c.JSON(common.NewNotFoundResponse())
+		}
+
 		return next(c)
 	}
 }

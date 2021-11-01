@@ -7,6 +7,7 @@ type errorControllerResponseCode string
 const (
 	ErrBadRequest errorControllerResponseCode = "bad_request"
 	ErrForbidden  errorControllerResponseCode = "forbidden"
+	ErrNotFound   errorControllerResponseCode = "Not Found"
 )
 
 //ControllerResponse default payload response
@@ -30,6 +31,14 @@ func NewForbiddenResponse() (int, ControllerResponse) {
 	return http.StatusForbidden, ControllerResponse{
 		ErrForbidden,
 		"Forbidden",
+		map[string]interface{}{},
+	}
+}
+
+func NewNotFoundResponse() (int, ControllerResponse) {
+	return http.StatusNotFound, ControllerResponse{
+		ErrNotFound,
+		"Not Found",
 		map[string]interface{}{},
 	}
 }
